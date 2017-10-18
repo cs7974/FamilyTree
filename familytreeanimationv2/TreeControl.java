@@ -3,7 +3,6 @@
  */
 package familytreeanimationv2;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 
 /**
@@ -16,7 +15,6 @@ public class TreeControl {
 
     private TreeView view;
 
-    private java.util.ArrayList<Person> personList;
 
     private String title;
 
@@ -47,11 +45,10 @@ public class TreeControl {
     private javafx.scene.control.Button saveBT
             = new javafx.scene.control.Button("Save");
 
-    public TreeControl(Person person, TreeView tv, java.util.ArrayList<Person> personList) {
+    public TreeControl(Person person, TreeView tv) {
 
         this.rootPerson = person;
         this.view = tv;
-        this.personList = personList;
 
         this.fnameTF.setText(person.getfName());
         this.mnameTF.setText(person.getmName());
@@ -60,7 +57,7 @@ public class TreeControl {
         this.title = "Edit: " + person.toString();
 
     }
-
+    
     public void showInputPane() {
         javafx.stage.Stage stage = new javafx.stage.Stage();
 
@@ -115,16 +112,9 @@ public class TreeControl {
             fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
             java.io.File picFile = fileChooser.showOpenDialog(stage);
 
-            String filePath = "";
-            
-            try(java.io.ObjectInputStream input = new java.io.ObjectInputStream(new java.io.FileInputStream(picFile))){
-           String tempString = picFile.getCanonicalPath();
-           filePath = Matcher.quoteReplacement(tempString);
-            }
-            
-            catch (java.io.IOException ex) {
-            ex.printStackTrace();
-        }
+            String filePath = picFile.getAbsolutePath();
+            String winPath = Matcher.quoteReplacement(filePath);
+            filePath = "file:" + winPath.replaceFirst("C", "c");
             
             System.out.println(filePath);
 
@@ -143,9 +133,7 @@ public class TreeControl {
 
             this.rootPerson.setMother(mother);
 
-            this.personList.add(mother);
-
-            TreeControl motherControl = new TreeControl(mother, this.view, personList);
+            TreeControl motherControl = new TreeControl(mother, this.view);
             motherControl.addFatherBT.setDisable(true);
             motherControl.addMotherBT.setDisable(true);
             motherControl.addFemaleSpouseBT.setDisable(true);
@@ -170,9 +158,7 @@ public class TreeControl {
 
             this.rootPerson.setFather(father);
 
-            this.personList.add(father);
-
-            TreeControl fatherControl = new TreeControl(father, this.view, personList);
+            TreeControl fatherControl = new TreeControl(father, this.view);
             fatherControl.addFatherBT.setDisable(true);
             fatherControl.addMotherBT.setDisable(true);
             fatherControl.addFemaleSpouseBT.setDisable(true);
@@ -197,9 +183,8 @@ public class TreeControl {
 
             this.rootPerson.setMaleSpouse(maleSpouse);
 
-            this.personList.add(maleSpouse);
 
-            TreeControl maleSpouseControl = new TreeControl(maleSpouse, this.view, personList);
+            TreeControl maleSpouseControl = new TreeControl(maleSpouse, this.view);
             maleSpouseControl.addFatherBT.setDisable(true);
             maleSpouseControl.addMotherBT.setDisable(true);
             maleSpouseControl.addFemaleSpouseBT.setDisable(true);
@@ -223,9 +208,7 @@ public class TreeControl {
 
             this.rootPerson.setFemaleSpouse(femaleSpouse);
 
-            this.personList.add(femaleSpouse);
-
-            TreeControl femaleSpouseControl = new TreeControl(femaleSpouse, this.view, personList);
+            TreeControl femaleSpouseControl = new TreeControl(femaleSpouse, this.view);
             femaleSpouseControl.addFatherBT.setDisable(true);
             femaleSpouseControl.addMotherBT.setDisable(true);
             femaleSpouseControl.addFemaleSpouseBT.setDisable(true);

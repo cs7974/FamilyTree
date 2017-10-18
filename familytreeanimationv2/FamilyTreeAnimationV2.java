@@ -21,16 +21,12 @@ public class FamilyTreeAnimationV2 extends Application {
         rootPerson.setmName("Family");
         rootPerson.setlName("Member");
 
-        java.util.ArrayList<Person> personList = new java.util.ArrayList<>();
+        TreeView view = new TreeView(rootPerson);
 
-        personList.add(rootPerson);
-
-        TreeView view = new TreeView(personList);
-        
         SystemControl sc = new SystemControl(view, primaryStage);
-        
+
         javafx.scene.layout.BorderPane bPane = new javafx.scene.layout.BorderPane();
-        
+
         bPane.setCenter(view);
         bPane.setTop(sc.showButtonPanel());
 
