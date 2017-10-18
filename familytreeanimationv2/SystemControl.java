@@ -18,33 +18,6 @@ public class SystemControl {
 
     }
 
-    public void saveTree(java.io.File file) {
-
-        try (java.io.ObjectOutputStream output = new java.io.ObjectOutputStream(new java.io.FileOutputStream(file))) {
-            output.writeObject(this.view.getPersonList());
-        } catch (java.io.IOException ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    public java.util.ArrayList loadTree(java.io.File file) {
-
-        try (java.io.ObjectInputStream input = new java.io.ObjectInputStream(new java.io.FileInputStream(file))) {
-            this.view.setPersonList((java.util.ArrayList<Person>) input.readObject());
-
-            this.view.displayTree();
-            return this.view.getPersonList();
-            
-        } catch (java.io.IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        return this.view.getPersonList();
-
-    }
-
     public javafx.scene.layout.HBox showButtonPanel() {
 
         javafx.scene.layout.HBox buttonBox = new javafx.scene.layout.HBox(10.0);
@@ -77,11 +50,9 @@ public class SystemControl {
 
         saveBtn.setOnAction(e -> {
 
-            java.util.Calendar date = new java.util.GregorianCalendar();
-
             javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
             fileChooser.setTitle("Choose a Save Location");
-            fileChooser.setInitialFileName(this.view.getPersonList().get(0).toString());
+            fileChooser.setInitialFileName(this.view.getRootPerson().toString());
             fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Tree Files", "*.tree"));
             java.io.File saveFile = fileChooser.showSaveDialog(this.mainStage);
             saveTree(saveFile);
@@ -94,7 +65,7 @@ public class SystemControl {
             fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Tree Files", "*.tree"));
             java.io.File saveFile = fileChooser.showOpenDialog(mainStage);
 
-            this.view.setPersonList(loadTree(saveFile));
+            this.view.setRootPerson(loadTree(saveFile));
 
         });
 
@@ -103,6 +74,33 @@ public class SystemControl {
         });
 
         return buttonBox;
+    }
+
+    public void saveTree(java.io.File file) {
+
+        try (java.io.ObjectOutputStream output = new java.io.ObjectOutputStream(new java.io.FileOutputStream(file))) {
+            output.writeObject(this.view.getRootPerson());
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public Person loadTree(java.io.File file) {
+
+        try (java.io.ObjectInputStream input = new java.io.ObjectInputStream(new java.io.FileInputStream(file))) {
+            this.view.setRootPerson((Person) input.readObject());
+
+            this.view.displayTree();
+            return this.view.getRootPerson();
+
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return this.view.getRootPerson();
+
     }
 
 }

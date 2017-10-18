@@ -3,9 +3,6 @@
  */
 package familytreeanimationv2;
 
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-
 /**
  *
  * @author Chris
@@ -34,15 +31,15 @@ public class TreeNodePane extends javafx.scene.layout.StackPane {
         return this.person;
     }
 
-    public Label getLabel() {
+    public javafx.scene.control.Label getLabel() {
         return label;
     }
 
-    public ImageView getView() {
+    public javafx.scene.image.ImageView getView() {
         return imageView;
     }
 
-    public void setView(ImageView view) {
+    public void setView(javafx.scene.image.ImageView view) {
         this.imageView = view;
     }
 

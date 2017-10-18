@@ -3,8 +3,6 @@
  */
 package familytreeanimationv2;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Chris
@@ -20,9 +18,8 @@ public class TreeView extends javafx.scene.layout.Pane {
         this.setStyle("-fx-border-color: black; -fx-background-color: purple");
     }
 
-    public TreeView(java.util.ArrayList<Person> personList) {
-        this.personList = personList;
-        this.rootPerson = personList.get(0);
+    public TreeView(Person person) {
+        this.rootPerson = person;
         this.setStyle("-fx-border-color: black; -fx-background-color: purple");
 
     }
@@ -66,7 +63,7 @@ public class TreeView extends javafx.scene.layout.Pane {
         TreeNodePane nodePane = new TreeNodePane(root);
 
         nodePane.setOnMouseClicked(e -> {
-            TreeControl control = new TreeControl(root, this, personList);
+            TreeControl control = new TreeControl(root, this);
             control.showInputPane();
         });
 
@@ -92,15 +89,6 @@ public class TreeView extends javafx.scene.layout.Pane {
         this.rootPerson = rootPerson;
     }
 
-    public ArrayList<Person> getPersonList() {
-        return personList;
-    }
-
-    public void setPersonList(ArrayList<Person> personList) {
-        this.personList = personList;
-        this.rootPerson = personList.get(0);
-    }
-
     public double getvGap() {
         return vGap;
     }
@@ -117,5 +105,4 @@ public class TreeView extends javafx.scene.layout.Pane {
         this.hGap = hGap;
     }
 
-    
 }
