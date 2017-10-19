@@ -9,10 +9,10 @@ package familytreeanimationv2;
  */
 public class TreeNodePane extends javafx.scene.layout.StackPane {
 
-    private Person person;
-    private javafx.scene.image.Image image;
-    private javafx.scene.image.ImageView imageView;
-    private javafx.scene.control.Label label;
+    final private Person person;
+    final private javafx.scene.image.Image image;
+     private javafx.scene.image.ImageView imageView;
+    final private javafx.scene.control.Label label;
 
     public TreeNodePane(Person person) {
         this.person = person;
