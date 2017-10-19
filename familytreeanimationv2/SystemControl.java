@@ -9,8 +9,9 @@ package familytreeanimationv2;
  */
 public class SystemControl {
 
-    private javafx.stage.Stage mainStage;
-    private TreeView view;
+   final private javafx.stage.Stage mainStage;
+   final private TreeView view;
+    private double version = 1.0;
 
     public SystemControl(TreeView view, javafx.stage.Stage mainStage) {
         this.view = view;
@@ -70,7 +71,8 @@ public class SystemControl {
         });
 
         updateBtn.setOnAction(e -> {
-            /// needs todo here ////
+            SystemUpdateClient client = new SystemUpdateClient(this.version);
+            client.start(mainStage);
         });
 
         return buttonBox;
@@ -100,7 +102,5 @@ public class SystemControl {
             ex.printStackTrace();
         }
         return this.view.getRootPerson();
-
     }
-
 }
