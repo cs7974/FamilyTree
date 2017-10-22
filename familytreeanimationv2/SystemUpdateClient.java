@@ -72,7 +72,7 @@ public class SystemUpdateClient extends Application {
 
             if (update == true) {
                 ta.appendText("An update is available.\n");
-               
+
             }
             if (update == false) {
                 ta.appendText("No update is available at this time.\n");
@@ -80,7 +80,7 @@ public class SystemUpdateClient extends Application {
 
         } catch (IOException ex) {
             System.err.println(ex);
-        } 
+        }
 
     }
 

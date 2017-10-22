@@ -3,8 +3,6 @@
  */
 package familytreeanimationv2;
 
-import java.util.regex.Matcher;
-
 /**
  *
  * @author Chris
@@ -15,6 +13,7 @@ public class TreeControl {
 
     private TreeView view;
 
+    private TreeModel model;
 
     private String title;
 
@@ -49,6 +48,7 @@ public class TreeControl {
 
         this.rootPerson = person;
         this.view = tv;
+        this.model = new TreeModel();
 
         this.fnameTF.setText(person.getfName());
         this.mnameTF.setText(person.getmName());
@@ -57,7 +57,7 @@ public class TreeControl {
         this.title = "Edit: " + person.toString();
 
     }
-    
+
     public void showInputPane() {
         javafx.stage.Stage stage = new javafx.stage.Stage();
 
@@ -112,26 +112,15 @@ public class TreeControl {
             fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
             java.io.File picFile = fileChooser.showOpenDialog(stage);
 
-            String filePath = picFile.getAbsolutePath();
-            String winPath = Matcher.quoteReplacement(filePath);
-            filePath = "file:" + winPath.replaceFirst("C", "c");
-            
-            System.out.println(filePath);
-
-            this.rootPerson.setImagePath(filePath);
+            this.model.changePictureIcon(rootPerson, picFile);
 
             this.view.displayTree();
 
         });
 
         this.addMotherBT.setOnAction(e -> {
-            Person mother = new Person();
-            mother.setfName("");
-            mother.setmName("");
-            mother.setlName("");
-            mother.setSex(2);
 
-            this.rootPerson.setMother(mother);
+            Person mother = this.model.addMother(rootPerson);
 
             TreeControl motherControl = new TreeControl(mother, this.view);
             motherControl.addFatherBT.setDisable(true);
@@ -142,21 +131,14 @@ public class TreeControl {
             motherControl.femaleRadio.setDisable(true);
             motherControl.maleRadio.setDisable(true);
             motherControl.setTitle("Edit: " + rootPerson.toString() + "'s Mother");
-
             motherControl.showInputPane();
-
             stage.close();
 
         });
 
         this.addFatherBT.setOnAction(e -> {
-            Person father = new Person();
-            father.setfName("");
-            father.setmName("");
-            father.setlName("");
-            father.setSex(1);
 
-            this.rootPerson.setFather(father);
+            Person father = model.addFather(rootPerson);
 
             TreeControl fatherControl = new TreeControl(father, this.view);
             fatherControl.addFatherBT.setDisable(true);
@@ -167,7 +149,6 @@ public class TreeControl {
             fatherControl.femaleRadio.setDisable(true);
             fatherControl.maleRadio.setDisable(true);
             fatherControl.setTitle("Edit: " + rootPerson.toString() + "'s Father");
-
             fatherControl.showInputPane();
             stage.close();
 
@@ -175,14 +156,7 @@ public class TreeControl {
 
         this.addMaleSpouseBT.setOnAction(e -> {
 
-            Person maleSpouse = new Person();
-            maleSpouse.setfName("");
-            maleSpouse.setmName("");
-            maleSpouse.setlName("");
-            maleSpouse.setSex(1);
-
-            this.rootPerson.setMaleSpouse(maleSpouse);
-
+            Person maleSpouse = model.addMaleSpouse(rootPerson);
 
             TreeControl maleSpouseControl = new TreeControl(maleSpouse, this.view);
             maleSpouseControl.addFatherBT.setDisable(true);
@@ -200,13 +174,7 @@ public class TreeControl {
 
         this.addFemaleSpouseBT.setOnAction(e -> {
 
-            Person femaleSpouse = new Person();
-            femaleSpouse.setfName("");
-            femaleSpouse.setmName("");
-            femaleSpouse.setlName("");
-            femaleSpouse.setSex(2);
-
-            this.rootPerson.setFemaleSpouse(femaleSpouse);
+            Person femaleSpouse = model.addFemaleSpouse(rootPerson);
 
             TreeControl femaleSpouseControl = new TreeControl(femaleSpouse, this.view);
             femaleSpouseControl.addFatherBT.setDisable(true);
