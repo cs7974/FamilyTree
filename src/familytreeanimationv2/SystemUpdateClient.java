@@ -18,11 +18,9 @@ import javafx.stage.Stage;
  */
 public class SystemUpdateClient extends Application {
 
-    // IO streams
-    DataOutputStream toServer = null;
-    DataInputStream fromServer = null;
-    ObjectOutputStream objToServer = null;
-    ObjectInputStream objFromServer = null;
+    private String serverIP = "127.0.0.1";
+    private int serverPort = 8000;
+    private String fileOutput = "C:\\Program Files\\Family Tree\\Downloads\\update.java";
 
     double version;
 
@@ -45,14 +43,21 @@ public class SystemUpdateClient extends Application {
         primaryStage.setScene(scene); // Place the scene in the stage
         primaryStage.show(); // Display the stage
 
+        byte[] aByte = new byte[1];
+        int bytesRead;
+
+        // IO streams
+        java.io.DataOutputStream toServer = null;
+        java.io.InputStream fromServer = null;
+        Socket socket = null;
         try {
             // Create a socket to connect to the server
-            Socket socket = new Socket("localhost", 8000);
+            socket = new Socket(serverIP, serverPort);
             // Socket socket = new Socket("130.254.204.36", 8000);
             // Socket socket = new Socket("drake.Armstrong.edu", 8000);
 
             // Create an input stream to receive data from the server
-            fromServer = new DataInputStream(socket.getInputStream());
+            fromServer = socket.getInputStream();
 
             // Create an output stream to send data to the server
             toServer = new DataOutputStream(socket.getOutputStream());
@@ -62,24 +67,52 @@ public class SystemUpdateClient extends Application {
             ta.appendText(ex.toString() + '\n');
         }
 
+        java.io.ByteArrayOutputStream bytesOut = new java.io.ByteArrayOutputStream();
+
         try {
 
             // write current version to server
             toServer.writeDouble(version);
             toServer.flush();
 
-            boolean update = fromServer.readBoolean();
-
-            if (update == true) {
-                ta.appendText("An update is available.\n");
-
-            }
-            if (update == false) {
-                ta.appendText("No update is available at this time.\n");
-            }
+            ta.appendText("Connected! Current version sent to server. \n");
 
         } catch (IOException ex) {
             System.err.println(ex);
+        }
+
+        if (fromServer != null) {
+            java.io.FileOutputStream fileOut = null;
+            java.io.BufferedOutputStream buffOut = null;
+
+            try {
+                ta.appendText("Attempting to download update. \n");
+
+                fileOut = new java.io.FileOutputStream(fileOutput);
+                buffOut = new java.io.BufferedOutputStream(fileOut);
+                bytesRead = fromServer.read(aByte, 0, aByte.length);
+
+                do {
+                    buffOut.write(aByte);
+                    bytesRead = fromServer.read(aByte);
+
+                } while (bytesRead != -1);
+
+                buffOut.write(bytesOut.toByteArray());
+                buffOut.flush();
+                buffOut.close();
+                socket.close();
+
+                ta.appendText("Update downloaded successfully. Connection has been closed. \n");
+
+            } catch (java.io.FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (java.io.IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            ta.appendText("No update available at this time. \n");
+
         }
 
     }

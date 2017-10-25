@@ -13,8 +13,7 @@ public class Person implements java.io.Serializable {
     /**
      * zero for default. one for male. two for female
      */
-    
-//this is a test for the git repo
+
     
     private String fName;
     private String mName;
@@ -42,7 +41,7 @@ public class Person implements java.io.Serializable {
      * list of people back to root
      */
     public Person() {
-        this.imagePath = "images/x-office-address-book.png";
+        this.imagePath = "images/default.png";
     }
 
     public String toString() {

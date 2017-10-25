@@ -7,10 +7,9 @@ package familytreeanimationv2;
  *
  * @author Chris
  */
-public class TreeView extends javafx.scene.layout.Pane {
+public class TreeView extends javafx.scene.control.ScrollPane {
 
     private Person rootPerson;
-    private java.util.ArrayList<Person> personList;
     private double vGap = 200;
     private double hGap = 200;
 
