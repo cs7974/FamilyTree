@@ -9,12 +9,15 @@ package familytreeanimationv2;
  */
 public class SystemControl {
 
-    private javafx.stage.Stage mainStage;
-    private TreeView view;
+   final private javafx.stage.Stage mainStage;
+   final private TreeView view;
+   final private SystemModel model;
 
     public SystemControl(TreeView view, javafx.stage.Stage mainStage) {
+        this.model = new SystemModel();
         this.view = view;
         this.mainStage = mainStage;
+        
 
     }
 
@@ -55,7 +58,7 @@ public class SystemControl {
             fileChooser.setInitialFileName(this.view.getRootPerson().toString());
             fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Tree Files", "*.tree"));
             java.io.File saveFile = fileChooser.showSaveDialog(this.mainStage);
-            saveTree(saveFile);
+            this.model.saveTree(saveFile, this.view.getRootPerson());
         });
 
         loadBtn.setOnAction(e -> {
@@ -65,42 +68,18 @@ public class SystemControl {
             fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Tree Files", "*.tree"));
             java.io.File saveFile = fileChooser.showOpenDialog(mainStage);
 
-            this.view.setRootPerson(loadTree(saveFile));
+            this.view.setRootPerson(this.model.loadTree(saveFile));
+            this.view.displayTree();
 
         });
 
         updateBtn.setOnAction(e -> {
-            /// needs todo here ////
+            SystemUpdateClient client = this.model.update();
+            client.start(mainStage);
         });
 
         return buttonBox;
     }
 
-    public void saveTree(java.io.File file) {
-
-        try (java.io.ObjectOutputStream output = new java.io.ObjectOutputStream(new java.io.FileOutputStream(file))) {
-            output.writeObject(this.view.getRootPerson());
-        } catch (java.io.IOException ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    public Person loadTree(java.io.File file) {
-
-        try (java.io.ObjectInputStream input = new java.io.ObjectInputStream(new java.io.FileInputStream(file))) {
-            this.view.setRootPerson((Person) input.readObject());
-
-            this.view.displayTree();
-            return this.view.getRootPerson();
-
-        } catch (java.io.IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        return this.view.getRootPerson();
-
-    }
-
+    
 }
