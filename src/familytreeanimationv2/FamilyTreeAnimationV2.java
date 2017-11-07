@@ -5,6 +5,9 @@ package familytreeanimationv2;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -26,11 +29,19 @@ public class FamilyTreeAnimationV2 extends Application {
         SystemControl sc = new SystemControl(view, primaryStage);
 
         javafx.scene.layout.BorderPane bPane = new javafx.scene.layout.BorderPane();
-
+        
         bPane.setCenter(view);
         bPane.setTop(sc.showButtonPanel());
-
-        Scene scene = new Scene(bPane, 900, 750);
+        bPane.setMinSize(900, 750);
+        HBox hb = new HBox(bPane);
+        ScrollPane scrollPane = new ScrollPane(hb);
+        //scrollPane.setFitToHeight(true);
+        //scrollPane.setFitToWidth(true);
+        
+        scrollPane.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+        scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+        
+        Scene scene = new Scene(scrollPane, 900, 750);
 
         primaryStage.setTitle("Family Tree Animation");
         primaryStage.setScene(scene);

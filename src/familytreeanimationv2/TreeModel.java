@@ -67,7 +67,14 @@ public class TreeModel {
         return femaleSpouse;
     }
     
-//    public java.util.ArrayList addKid() {
-//        
-//    }
+    public Person addKid(Person person) {
+        Person Kid = new Person();
+        Kid.setfName("");
+        Kid.setmName("");
+        Kid.setlName("");
+        
+
+        person;
+        return femaleSpouse;
+   }
 }
