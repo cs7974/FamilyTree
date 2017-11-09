@@ -1,9 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*
  *
  */
 package familytreeanimationv2;
@@ -67,19 +62,12 @@ public class TreeModel {
         femaleSpouse.setmName("");
         femaleSpouse.setlName("");
         femaleSpouse.setSex(2);
-        
+
         person.setFemaleSpouse(femaleSpouse);
         return femaleSpouse;
     }
     
-    public Person addKid(Person person) {
-        Person Kid = new Person();
-        Kid.setfName("");
-        Kid.setmName("");
-        Kid.setlName("");
-        
-
-        person.setKid(Kid);
-        return Kid;
-   }
+//    public java.util.ArrayList addKid() {
+//        
+//    }
 }
