@@ -14,6 +14,7 @@ public class Person implements java.io.Serializable {
      * zero for default. one for male. two for female
      */
 
+    
     private String fName;
     private String mName;
     private String lName;
@@ -39,11 +40,8 @@ public class Person implements java.io.Serializable {
     /**
      * list of people back to root
      */
-
     public Person() {
-
-        this.imagePath = "images/x-office-address-book.png";
-
+        this.imagePath = "images/default.png";
     }
 
     public String toString() {
@@ -175,31 +173,6 @@ public class Person implements java.io.Serializable {
     public void setKid(Person kid) {
         this.kids.add(kid);
     }
-
-    /**
-     * The getPath returns a copy of this Person list. This way each Person's
-     * list stays in tact. ( ie not return path itself because other Person may
-     * jack it up)
-     */
-//    public java.util.ArrayList<Person> getPath() {
-//        java.util.ArrayList<Person> copyList = new java.util.ArrayList<Person>();
-//        copyList.addAll(this.path);
-//        return copyList;
-//    }
-
-    /**
-     * The setPath copies the passed path to this Person list. This way each
-     * Person's list stays in tact. ( ie not setting this list to some other
-     * person list because some other Person may jack it up)
-     */
-//    public void setPath(java.util.ArrayList<Person> path) {
-//
-//        this.path.addAll(path);
-//    }
-//
-//    public void addLeafToPath(Person person) {
-//        this.path.add(person);
-//    }
 
     public String getImagePath() {
         return imagePath;

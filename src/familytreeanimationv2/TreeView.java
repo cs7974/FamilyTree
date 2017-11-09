@@ -1,7 +1,4 @@
 /*
- * This is the main part
- */
-/*
  *
  */
 package familytreeanimationv2;
@@ -10,19 +7,19 @@ package familytreeanimationv2;
  *
  * @author Chris
  */
-public class TreeView extends javafx.scene.layout.Pane {
+public class TreeView extends javafx.scene.control.ScrollPane {
 
     private Person rootPerson;
-    private java.util.ArrayList<Person> personList;
     private double vGap = 200;
     private double hGap = 200;
 
     public TreeView() {
-        
+        this.setStyle("-fx-border-color: black; -fx-background-color: purple");
     }
 
     public TreeView(Person person) {
         this.rootPerson = person;
+        this.setStyle("-fx-border-color: black; -fx-background-color: purple");
 
     }
 
@@ -39,37 +36,21 @@ public class TreeView extends javafx.scene.layout.Pane {
 
         // first lay down lines
         if (root.getMother() != null) {
-            javafx.scene.shape.Line l = new javafx.scene.shape.Line(x - hGap, y - vGap, x, y);
-            l.setStroke(javafx.scene.paint.Color.DARKOLIVEGREEN);
-            l.setStrokeWidth(3);
-            l.setSmooth(true);
-            getChildren().add(l);
+            getChildren().add(new javafx.scene.shape.Line(x - hGap, y - vGap, x, y));
             displayTree(root.getMother(), x - hGap, y - vGap);
         }
         if (root.getFather() != null) {
-            javafx.scene.shape.Line l = new javafx.scene.shape.Line(x + hGap, y - vGap, x, y);
-            l.setStroke(javafx.scene.paint.Color.DARKOLIVEGREEN);
-            l.setStrokeWidth(3);
-            l.setSmooth(true);
-            getChildren().add(l);
+            getChildren().add(new javafx.scene.shape.Line(x + hGap, y - vGap, x, y));
             displayTree(root.getFather(), x + hGap, y - vGap);
 
         }
         if (root.getFemaleSpouse() != null) {
-            javafx.scene.shape.Line l = new javafx.scene.shape.Line(x - hGap, y, x, y);
-            l.setStroke(javafx.scene.paint.Color.DARKOLIVEGREEN);
-            l.setStrokeWidth(3);
-            l.setSmooth(true);
-            getChildren().add(l);
+            getChildren().add(new javafx.scene.shape.Line(x - hGap, y, x, y));
             displayTree(root.getFemaleSpouse(), x - hGap, y);
 
         }
         if (root.getMaleSpouse() != null) {
-            javafx.scene.shape.Line l = new javafx.scene.shape.Line(x + hGap, y, x, y);
-            l.setStroke(javafx.scene.paint.Color.DARKOLIVEGREEN);
-            l.setStrokeWidth(3);
-            l.setSmooth(true);
-            getChildren().add(l);
+            getChildren().add(new javafx.scene.shape.Line(x + hGap, y, x, y));
             displayTree(root.getMaleSpouse(), x + hGap, y);
 
         }
