@@ -3,9 +3,6 @@
  */
 package familytreeanimationv2;
 
-import java.time.LocalDate;
-import java.util.regex.Matcher;
-
 /**
  *
  * @author Chris
@@ -15,7 +12,7 @@ public class TreeControl {
     private Person rootPerson;
 
     private TreeView view;
-    
+
     private TreeModel model;
 
     private String title;
@@ -26,18 +23,7 @@ public class TreeControl {
             = new javafx.scene.control.TextField();
     private javafx.scene.control.TextField lnameTF
             = new javafx.scene.control.TextField();
-    private javafx.scene.control.TextField BirthYearTF
-            = new javafx.scene.control.TextField();
-    private javafx.scene.control.TextField BirthMonthTF
-            = new javafx.scene.control.TextField();
-    private javafx.scene.control.TextField BirthDayTF
-            = new javafx.scene.control.TextField();
-    private javafx.scene.control.TextField DeathYearTF
-            = new javafx.scene.control.TextField();
-    private javafx.scene.control.TextField DeathMonthTF
-            = new javafx.scene.control.TextField();
-    private javafx.scene.control.TextField DeathDayTF
-            = new javafx.scene.control.TextField();
+
     private javafx.scene.control.RadioButton maleRadio
             = new javafx.scene.control.RadioButton("Male");
     private javafx.scene.control.RadioButton femaleRadio
@@ -57,25 +43,17 @@ public class TreeControl {
             = new javafx.scene.control.Button("Add Kids");
     private javafx.scene.control.Button saveBT
             = new javafx.scene.control.Button("Save");
-    private javafx.scene.control.Label warning
-            = new javafx.scene.control.Label();
-    private javafx.scene.control.Button removeBT
-            = new javafx.scene.control.Button("Remove Person");
 
     public TreeControl(Person person, TreeView tv) {
 
         this.rootPerson = person;
         this.view = tv;
         this.model = new TreeModel();
+
         this.fnameTF.setText(person.getfName());
         this.mnameTF.setText(person.getmName());
         this.lnameTF.setText(person.getlName());
-        this.BirthDayTF.setText(Integer.toString(person.getBirthDay()));
-        this.BirthMonthTF.setText(Integer.toString(person.getBirthMonth()));
-        this.BirthYearTF.setText(Integer.toString(person.getBirthYear()));
-        this.DeathDayTF.setText(Integer.toString(person.getDeathDay()));
-        this.DeathMonthTF.setText(Integer.toString(person.getDeathMonth()));
-        this.DeathYearTF.setText(Integer.toString(person.getDeathYear()));
+
         this.title = "Edit: " + person.toString();
 
     }
@@ -107,17 +85,9 @@ public class TreeControl {
         gridPane.add(addMaleSpouseBT, 0, 6);
         gridPane.add(addFemaleSpouseBT, 1, 6);
         gridPane.add(addKidsBT, 0, 7);
-        gridPane.add(new javafx.scene.control.Label("Birth Date (Y, M, D) "), 0, 8);
-        gridPane.add(BirthYearTF, 1, 8);
-        gridPane.add(BirthMonthTF, 2, 8);
-        gridPane.add(BirthDayTF, 3, 8);
-        gridPane.add(new javafx.scene.control.Label("Date of Death (Y, M, D) "), 0, 9);
-        gridPane.add(DeathYearTF, 1, 9);
-        gridPane.add(DeathMonthTF, 2, 9);
-        gridPane.add(DeathDayTF, 3, 9);
-        gridPane.add(removeBT, 0, 10);
+
         gridPane.add(saveBT, 1, 10);
-        gridPane.add(warning, 0, 11);
+
         gridPane.setAlignment(javafx.geometry.Pos.CENTER);
         this.fnameTF.setAlignment(javafx.geometry.Pos.BOTTOM_RIGHT);
         this.mnameTF.setAlignment(javafx.geometry.Pos.BOTTOM_RIGHT);
@@ -141,20 +111,16 @@ public class TreeControl {
             fileChooser.setTitle("Choose a Tree to Load");
             fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
             java.io.File picFile = fileChooser.showOpenDialog(stage);
-            String filePath = picFile.getAbsolutePath();
-            String winPath = Matcher.quoteReplacement(filePath);
-            filePath = "file:" + winPath.replaceFirst("C", "c");
 
-            System.out.println(filePath);
-
-            this.rootPerson.setImagePath(filePath);
+            this.model.changePictureIcon(rootPerson, picFile);
 
             this.view.displayTree();
-        });
-        
-        this.addMotherBT.setOnAction(e -> {
-            Person mother = this.model.addMother(rootPerson);
 
+        });
+
+        this.addMotherBT.setOnAction(e -> {
+
+            Person mother = this.model.addMother(rootPerson);
 
             TreeControl motherControl = new TreeControl(mother, this.view);
             motherControl.addFatherBT.setDisable(true);
@@ -165,16 +131,14 @@ public class TreeControl {
             motherControl.femaleRadio.setDisable(true);
             motherControl.maleRadio.setDisable(true);
             motherControl.setTitle("Edit: " + rootPerson.toString() + "'s Mother");
-
             motherControl.showInputPane();
-
             stage.close();
 
         });
 
         this.addFatherBT.setOnAction(e -> {
-            Person father = model.addFather(rootPerson);
 
+            Person father = model.addFather(rootPerson);
 
             TreeControl fatherControl = new TreeControl(father, this.view);
             fatherControl.addFatherBT.setDisable(true);
@@ -185,7 +149,6 @@ public class TreeControl {
             fatherControl.femaleRadio.setDisable(true);
             fatherControl.maleRadio.setDisable(true);
             fatherControl.setTitle("Edit: " + rootPerson.toString() + "'s Father");
-
             fatherControl.showInputPane();
             stage.close();
 
@@ -206,6 +169,7 @@ public class TreeControl {
             maleSpouseControl.setTitle("Edit: " + rootPerson.toString() + "'s Spouse");
             maleSpouseControl.showInputPane();
             stage.close();
+
         });
 
         this.addFemaleSpouseBT.setOnAction(e -> {
@@ -227,164 +191,17 @@ public class TreeControl {
         });
 
         this.addKidsBT.setOnAction(e -> {
-            Person Child = model.addKid(rootPerson);
-
-            TreeControl ChildControl = new TreeControl(Child, this.view);
-            ChildControl.addFatherBT.setDisable(true);
-            ChildControl.addMotherBT.setDisable(true);
-            ChildControl.addFemaleSpouseBT.setDisable(true);
-            ChildControl.addMaleSpouseBT.setDisable(true);
-            ChildControl.addKidsBT.setDisable(true);
-            ChildControl.femaleRadio.setDisable(false);
-            ChildControl.maleRadio.setDisable(false);
-            ChildControl.setTitle("Edit: " + rootPerson.toString() + "'s Child");
-            ChildControl.showInputPane();
-
-            stage.close();
-        });
-
-        this.removeBT.setOnAction(e -> {
-            if (this.rootPerson.getMother() == null && this.rootPerson.getFather() == null
-                    && this.rootPerson.getMaleSpouse() == null && this.rootPerson.getFemaleSpouse() == null
-                    && this.rootPerson.getKids().isEmpty()) {
-                warning.setText("You can't remove the only person in the tree.");
-            } else if (this.rootPerson.getMother() != null) {
-                if (this.rootPerson.getFather() != null || this.rootPerson.getMaleSpouse() != null
-                        || this.rootPerson.getFemaleSpouse() != null || !this.rootPerson.getKids().isEmpty())  {
-                    this.rootPerson.setImagePath("images/x-office-address-book.png");
-                    this.rootPerson.setBirthDay(0);
-                    this.rootPerson.setBirthMonth(0);
-                    this.rootPerson.setBirthYear(0);
-                    this.rootPerson.setDeathDay(0);
-                    this.rootPerson.setDeathMonth(0);
-                    this.rootPerson.setDeathYear(0);
-                    this.rootPerson.setAge();
-                    this.rootPerson.setSex(0);
-                    this.rootPerson.setfName("");
-                    this.rootPerson.setlName("");
-                    this.rootPerson.setmName("");
-                    stage.close();
-                    this.view.displayTree();
-                } else {
-                    System.out.print("Needs to be implemented.");
-                }
-            } else if (this.rootPerson.getFather() != null) {
-                if (this.rootPerson.getMother() != null || this.rootPerson.getMaleSpouse() != null
-                        || this.rootPerson.getFemaleSpouse() != null || !this.rootPerson.getKids().isEmpty())  {
-                    this.rootPerson.setImagePath("images/x-office-address-book.png");
-                    this.rootPerson.setBirthDay(0);
-                    this.rootPerson.setBirthMonth(0);
-                    this.rootPerson.setBirthYear(0);
-                    this.rootPerson.setDeathDay(0);
-                    this.rootPerson.setDeathMonth(0);
-                    this.rootPerson.setDeathYear(0);
-                    this.rootPerson.setAge();
-                    this.rootPerson.setSex(0);
-                    this.rootPerson.setfName("");
-                    this.rootPerson.setlName("");
-                    this.rootPerson.setmName("");
-                    stage.close();
-                    this.view.displayTree();
-                } else {
-                    System.out.print("Needs to be implemented.");
-                }
-            } else if (this.rootPerson.getMaleSpouse() != null) {
-                if (this.rootPerson.getFather() != null || this.rootPerson.getMother() != null
-                        || this.rootPerson.getFemaleSpouse() != null || !this.rootPerson.getKids().isEmpty()) {
-                    this.rootPerson.setImagePath("images/x-office-address-book.png");
-                    this.rootPerson.setBirthDay(0);
-                    this.rootPerson.setBirthMonth(0);
-                    this.rootPerson.setBirthYear(0);
-                    this.rootPerson.setDeathDay(0);
-                    this.rootPerson.setDeathMonth(0);
-                    this.rootPerson.setDeathYear(0);
-                    this.rootPerson.setAge();
-                    this.rootPerson.setSex(0);
-                    this.rootPerson.setfName("");
-                    this.rootPerson.setlName("");
-                    this.rootPerson.setmName("");
-                    stage.close();
-                    this.view.displayTree();
-                } else {
-                    System.out.print("Needs to be implemented.");
-                }
-            } else if (this.rootPerson.getFemaleSpouse() != null) {
-                if (this.rootPerson.getFather() != null || this.rootPerson.getMaleSpouse() != null
-                        || this.rootPerson.getMother() != null || !this.rootPerson.getKids().isEmpty())  {
-                    this.rootPerson.setImagePath("images/x-office-address-book.png");
-                    this.rootPerson.setBirthDay(0);
-                    this.rootPerson.setBirthMonth(0);
-                    this.rootPerson.setBirthYear(0);
-                    this.rootPerson.setDeathDay(0);
-                    this.rootPerson.setDeathMonth(0);
-                    this.rootPerson.setDeathYear(0);
-                    this.rootPerson.setAge();
-                    this.rootPerson.setSex(0);
-                    this.rootPerson.setfName("");
-                    this.rootPerson.setlName("");
-                    this.rootPerson.setmName("");
-                    stage.close();
-                    this.view.displayTree();
-                } else {
-                    System.out.print("Needs to be implemented.");
-                }
-            } else if(!this.rootPerson.getKids().isEmpty()) {
-                if (this.rootPerson.getFather() != null || this.rootPerson.getMaleSpouse() != null
-                        || this.rootPerson.getMother() != null || this.rootPerson.getFemaleSpouse() != null)  {
-                    this.rootPerson.setImagePath("images/x-office-address-book.png");
-                    this.rootPerson.setBirthDay(0);
-                    this.rootPerson.setBirthMonth(0);
-                    this.rootPerson.setBirthYear(0);
-                    this.rootPerson.setDeathDay(0);
-                    this.rootPerson.setDeathMonth(0);
-                    this.rootPerson.setDeathYear(0);
-                    this.rootPerson.setAge();
-                    this.rootPerson.setSex(0);
-                    this.rootPerson.setfName("");
-                    this.rootPerson.setlName("");
-                    this.rootPerson.setmName("");
-                    stage.close();
-                    this.view.displayTree();
-                } else {
-                    System.out.print("Needs to be implemented.");
-                }
-            }
+            //////////////////////////////////// NEED WORK HERE////////////////
         });
 
         this.saveBT.setOnAction(e -> {
-            if (Integer.parseInt(BirthDayTF.getText()) < 0 || Integer.parseInt(BirthDayTF.getText()) > 31 || Integer.parseInt(BirthMonthTF.getText()) < 0
-                    || Integer.parseInt(BirthMonthTF.getText()) > 12 || Integer.parseInt(BirthYearTF.getText()) < 0) {
-                warning.setText("Please Enter a Valid Date");
-            } else if (Integer.parseInt(DeathDayTF.getText()) < 0 || Integer.parseInt(DeathDayTF.getText()) > 31 || Integer.parseInt(DeathMonthTF.getText()) < 0
-                    || Integer.parseInt(DeathMonthTF.getText()) > 12 || Integer.parseInt(DeathYearTF.getText()) < 0) {
-                warning.setText("Please Enter a Valid Date");
-            } else {
-                this.rootPerson.setfName(fnameTF.getText());
-                this.rootPerson.setmName(mnameTF.getText());
-                this.rootPerson.setlName(lnameTF.getText());
-                if (Integer.parseInt(BirthDayTF.getText()) > 0 && Integer.parseInt(BirthMonthTF.getText()) > 0 && Integer.parseInt(BirthYearTF.getText()) > 0) {
-                    this.rootPerson.setBirthDay(Integer.parseInt(BirthDayTF.getText()));
-                    this.rootPerson.setBirthMonth(Integer.parseInt(BirthMonthTF.getText()));
-                    this.rootPerson.setBirthYear(Integer.parseInt(BirthYearTF.getText()));
-                    this.rootPerson.setBirthDate(LocalDate.of(Integer.parseInt(BirthYearTF.getText()), Integer.parseInt(BirthMonthTF.getText()), Integer.parseInt(BirthDayTF.getText())));
-                }
-                if (Integer.parseInt(DeathDayTF.getText()) > 0 && Integer.parseInt(DeathMonthTF.getText()) > 0 && Integer.parseInt(DeathYearTF.getText()) > 0) {
-                    this.rootPerson.setDeathDay(Integer.parseInt(DeathDayTF.getText()));
-                    this.rootPerson.setDeathMonth(Integer.parseInt(DeathMonthTF.getText()));
-                    this.rootPerson.setDeathYear(Integer.parseInt(DeathYearTF.getText()));
-                    this.rootPerson.setDeathDate(LocalDate.of(Integer.parseInt(DeathYearTF.getText()), Integer.parseInt(DeathMonthTF.getText()), Integer.parseInt(DeathDayTF.getText())));
-                }
-                this.rootPerson.setAge();
-                if (maleRadio.isSelected()) {
-                    this.rootPerson.setSex(1);
-                } else if (femaleRadio.isSelected()) {
-                    this.rootPerson.setSex(2);
-                } else {
-                    this.rootPerson.setSex(1);
-                }
-                stage.close();
-                this.view.displayTree();
-            }
+
+            this.rootPerson.setfName(fnameTF.getText());
+            this.rootPerson.setmName(mnameTF.getText());
+            this.rootPerson.setlName(lnameTF.getText());
+            stage.close();
+            this.view.displayTree();
+
         });
 
         // Disable buttons if they already have that relative
@@ -396,14 +213,12 @@ public class TreeControl {
         }
         if (this.rootPerson.getMaleSpouse() != null) {
             this.addMaleSpouseBT.setDisable(true);
-            this.addFemaleSpouseBT.setDisable(true);
         }
         if (this.rootPerson.getFemaleSpouse() != null) {
             this.addFemaleSpouseBT.setDisable(true);
-            this.addMaleSpouseBT.setDisable(true);
         }
 
-        javafx.scene.Scene scene = new javafx.scene.Scene(gridPane, 600, 350);
+        javafx.scene.Scene scene = new javafx.scene.Scene(gridPane, 400, 250);
         stage.setTitle(this.title);
         stage.setScene(scene);
         stage.show();

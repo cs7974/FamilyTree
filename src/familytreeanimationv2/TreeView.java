@@ -7,14 +7,12 @@ package familytreeanimationv2;
  *
  * @author Chris
  */
-public class TreeView extends javafx.scene.layout.Pane {
+public class TreeView extends javafx.scene.control.ScrollPane {
 
     private Person rootPerson;
-    private java.util.ArrayList<Person> personList;
     private double vGap = 200;
     private double hGap = 200;
-    private int FChildNum = 1;
-    private int MChildNum = 1;
+
     public TreeView() {
         this.setStyle("-fx-border-color: black; -fx-background-color: purple");
     }
@@ -49,7 +47,7 @@ public class TreeView extends javafx.scene.layout.Pane {
         if (root.getFemaleSpouse() != null) {
             getChildren().add(new javafx.scene.shape.Line(x - hGap, y, x, y));
             displayTree(root.getFemaleSpouse(), x - hGap, y);
-            
+
         }
         if (root.getMaleSpouse() != null) {
             getChildren().add(new javafx.scene.shape.Line(x + hGap, y, x, y));
@@ -57,12 +55,8 @@ public class TreeView extends javafx.scene.layout.Pane {
 
         }
         if (root.getKids().isEmpty() == false) {
-            for(int i = 0; i < root.getKids().size(); i++){
-                    getChildren().add(new javafx.scene.shape.Line(x + (hGap * i), y + vGap, x, y));
-                    displayTree(root.getKids().get(i), x + (hGap * i), y + vGap);
-            }
+
         }
-            
 
         // place nodes onto view
         TreeNodePane nodePane = new TreeNodePane(root);
