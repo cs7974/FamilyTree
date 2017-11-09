@@ -1,5 +1,5 @@
 /*
- * 
+ * This is the individual person's pane
  */
 package familytreeanimationv2;
 
@@ -20,11 +20,13 @@ public class TreeNodePane extends javafx.scene.layout.StackPane {
         this.image = new javafx.scene.image.Image(person.getImagePath());
         this.imageView = new javafx.scene.image.ImageView(image);
         this.label = new javafx.scene.control.Label(person.toString(), this.imageView);
+        label.setFont(new javafx.scene.text.Font("Georgia", 12));
         label.setContentDisplay(javafx.scene.control.ContentDisplay.BOTTOM);
 
         this.getChildren().add(label);
 
-        this.setStyle("-fx-border-color: black; -fx-background-color: lightblue");
+        this.setPadding(new javafx.geometry.Insets(5, 5, 5, 5));
+        this.setStyle("-fx-border-color: palegreen; -fx-background-color: #b7d09e");
     }
 
     public Person getPerson() {
