@@ -1,9 +1,13 @@
 /*
- * 
+ *  TreeControl is the interface between The TreeView and TreeModel. 
+ *  A person object is passed to TreeControl from TreeView after an event
+ *  suck as a mouse click. The TreeControl displays the options that are currently 
+ *  available to the Person object that was passed. After an option is selected,
+ *  TreeControl passes the Person object and the option to the TreeModel for
+ *  data manipulation. TreeControl will then update the TreeView with the current 
+ *  information to be displayed to the user.
  */
 package familytreeanimationv2;
-
-import java.util.regex.Matcher;
 
 /**
  *
@@ -118,6 +122,7 @@ public class TreeControl {
         namePane.add(l3, 0, 2);
         lnameTF.setFont(new javafx.scene.text.Font("Georgia", 12));
         namePane.add(lnameTF, 1, 2);
+        
         //dataPane.add(maleRadio, 0, 3);
         if (this.person.getSex() == 1) {
             maleRadio.setSelected(true);
@@ -152,6 +157,7 @@ public class TreeControl {
 
         gridPane.add(imagePane, 0, 0);
         gridPane.add(dataPane, 1, 0);
+        
         //need to add in an Additional Info label and text area
         gridPane.add(btPane1, 0, 5);
         gridPane.add(btPane2, 1, 5);
@@ -185,7 +191,7 @@ public class TreeControl {
             java.io.File picFile = fileChooser.showOpenDialog(stage);
 
             String filePath = picFile.getAbsolutePath();
-            String winPath = Matcher.quoteReplacement(filePath);
+            String winPath = java.util.regex.Matcher.quoteReplacement(filePath);
             filePath = "file:" + winPath.replaceFirst("C", "c");
 
             System.out.println(filePath);

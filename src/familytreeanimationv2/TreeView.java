@@ -1,5 +1,15 @@
 /*
+ * TreeView is the main visual platform for users to interact with the family
+ * tree currently being constructed. It houses each individual's node, visually 
+ * maps the relationships, and displays the ServiceControl buttons for saving,
+ * loading, checking for updates, etc. Each individual's node is made clickable,
+ * and when the mouse event is fired TreeView will relay the Person object to
+ * ServiceControl from the node that was selected by the user. 
  *
+ * In the event of save or load file option, the TreeView will send or set 
+ * the root Person object for save and load file respectfully. The root Person 
+ * passed to TreeView's constructor is the Person container that contains all 
+ * other Person objects that are associated with the family tree.
  */
 package familytreeanimationv2;
 
@@ -128,6 +138,9 @@ public class TreeView extends javafx.scene.control.ScrollPane {
         this.hGap = hGap;
     }
     
+    /*
+    * The TreeNodePane class provides the visual wrapper for each Person node.
+    */
     private class TreeNodePane extends javafx.scene.layout.StackPane {
 
     final private Person person;
@@ -172,6 +185,5 @@ public class TreeView extends javafx.scene.control.ScrollPane {
     }
 
 }
-
 
 }

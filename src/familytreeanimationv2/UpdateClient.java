@@ -1,5 +1,7 @@
 /*
- * 
+ *  Client constructor takes a version (double) arg
+ *  and passes along the version number to a outside server
+ *  that will provide the necessary updates if they are available.
  */
 package familytreeanimationv2;
 
@@ -53,8 +55,6 @@ public class UpdateClient extends Application {
         try {
             // Create a socket to connect to the server
             socket = new Socket(serverIP, serverPort);
-            // Socket socket = new Socket("130.254.204.36", 8000);
-            // Socket socket = new Socket("drake.Armstrong.edu", 8000);
 
             // Create an input stream to receive data from the server
             fromServer = socket.getInputStream();

@@ -1,5 +1,6 @@
 /*
- * 
+ *  Service model handles all file write, read, and transfer opperations
+ *  for the overall system.
  */
 package familytreeanimationv2;
 

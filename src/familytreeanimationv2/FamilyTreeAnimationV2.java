@@ -1,5 +1,6 @@
 /*
- * 
+ *  The root Person object that is created here is the one that will be used for 
+ *  save and load tree operations.
  */
 package familytreeanimationv2;
 

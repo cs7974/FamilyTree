@@ -1,5 +1,9 @@
 /*
- *
+ * TreeModel handles data manipulation for the interactive family tree. 
+ * It functions include creating new, non-root family members and linking 
+ * them to the Person object that is passes as a argument. It does this linking
+ * in a linked-list fashon and then returns the new person already linked 
+ * to its appropiate relationship (based on method used below).
  */
 package familytreeanimationv2;
 
@@ -18,7 +22,7 @@ public class TreeModel {
         String winPath = java.util.regex.Matcher.quoteReplacement(filePath);
         filePath = "file:" + winPath.replaceFirst("C", "c");
 
-        System.out.println(filePath);
+        // System.out.println(filePath);
 
         person.setImagePath(filePath);
     }

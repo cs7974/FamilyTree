@@ -1,5 +1,6 @@
 /*
  * The person class contains everything that defines a person on the family tree.
+ * It is our information container.
  */
 package familytreeanimationv2;
 

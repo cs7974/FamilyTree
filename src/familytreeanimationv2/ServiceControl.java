@@ -1,9 +1,13 @@
 /*
- * 
+ * ServiceControl is the interface between the ServiceModel and TreeView.
+ * It contains a method for displaying available system services in a button
+ * bar(Save and Load work, Check for updates, etc). 
+ * It will pass events at this button bar to the SystemModel for data 
+ * manipulation. In the even there is a return from SystemModel, ServiceControl
+ * updates TreeView for the user to see. In the event of a system software update, 
+ * SystemControl calls a separate update client to communicate with an outside server.
  */
 package familytreeanimationv2;
-
-import javafx.geometry.Pos;
 
 /**
  *
@@ -53,7 +57,7 @@ public class ServiceControl {
         loadBtn.getStyleClass().add("leafygreen");
         updateBtn.getStyleClass().add("leafygreen");
         buttonBox.setPadding(new javafx.geometry.Insets(10.0, 10.0, 10.0, 10.0));
-        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
         buttonBox.setSpacing(90);
         buttonBox.getStylesheets().add("css/FamilyTreeCSS.css");
 
