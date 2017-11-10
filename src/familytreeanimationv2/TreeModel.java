@@ -25,9 +25,6 @@ public class TreeModel {
 
     public Person addMother(Person person) {
         Person mother = new Person();
-        mother.setfName("");
-        mother.setmName("");
-        mother.setlName("");
         mother.setSex(2);
 
         person.setMother(mother);
@@ -36,9 +33,6 @@ public class TreeModel {
 
     public Person addFather(Person person) {
         Person father = new Person();
-        father.setfName("");
-        father.setmName("");
-        father.setlName("");
         father.setSex(1);
 
         person.setFather(father);
@@ -47,9 +41,6 @@ public class TreeModel {
 
     public Person addMaleSpouse(Person person) {
         Person maleSpouse = new Person();
-        maleSpouse.setfName("");
-        maleSpouse.setmName("");
-        maleSpouse.setlName("");
         maleSpouse.setSex(1);
 
         person.setMaleSpouse(maleSpouse);
@@ -58,16 +49,15 @@ public class TreeModel {
 
     public Person addFemaleSpouse(Person person) {
         Person femaleSpouse = new Person();
-        femaleSpouse.setfName("");
-        femaleSpouse.setmName("");
-        femaleSpouse.setlName("");
         femaleSpouse.setSex(2);
 
         person.setFemaleSpouse(femaleSpouse);
         return femaleSpouse;
     }
-    
-//    public java.util.ArrayList addKid() {
-//        
-//    }
+
+    public Person addKid(Person person) {
+        Person kid = new Person();
+        person.setKid(kid);
+        return kid;
+    }
 }

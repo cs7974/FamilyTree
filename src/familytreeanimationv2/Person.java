@@ -14,7 +14,6 @@ public class Person implements java.io.Serializable {
      * zero for default. one for male. two for female
      */
 
-    
     private String fName;
     private String mName;
     private String lName;
@@ -41,7 +40,10 @@ public class Person implements java.io.Serializable {
      * list of people back to root
      */
     public Person() {
-        this.imagePath = "images/default.png";
+        this.imagePath = "images/x-office-address-book.png";
+        this.fName = "";
+        this.mName = "";
+        this.lName = "";
     }
 
     public String toString() {

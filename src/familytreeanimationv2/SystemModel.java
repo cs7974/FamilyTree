@@ -40,8 +40,8 @@ public class SystemModel {
         }
         return root;
     }
-    
-    public SystemUpdateClient update(){
+
+    public SystemUpdateClient update() {
         SystemUpdateClient client = new SystemUpdateClient(this.version);
         return client;
     }
