@@ -82,37 +82,39 @@ public class UpdateClient extends Application {
         }
 
         if (fromServer != null) {
-            java.io.FileOutputStream fileOut = null;
-            java.io.BufferedOutputStream buffOut = null;
 
-            try {
-                ta.appendText("Attempting to download update. \n");
+            if (fromServer.equals(true)) {
+                java.io.FileOutputStream fileOut = null;
+                java.io.BufferedOutputStream buffOut = null;
 
-                fileOut = new java.io.FileOutputStream(fileOutput);
-                buffOut = new java.io.BufferedOutputStream(fileOut);
-                bytesRead = fromServer.read(aByte, 0, aByte.length);
+                try {
+                    ta.appendText("Attempting to download update. \n");
 
-                do {
-                    buffOut.write(aByte);
-                    bytesRead = fromServer.read(aByte);
+                    fileOut = new java.io.FileOutputStream(fileOutput);
+                    buffOut = new java.io.BufferedOutputStream(fileOut);
+                    bytesRead = fromServer.read(aByte, 0, aByte.length);
 
-                } while (bytesRead != -1);
+                    do {
+                        buffOut.write(aByte);
+                        bytesRead = fromServer.read(aByte);
 
-                buffOut.write(bytesOut.toByteArray());
-                buffOut.flush();
-                buffOut.close();
-                socket.close();
+                    } while (bytesRead != -1);
 
-                ta.appendText("Update downloaded successfully. Connection has been closed. \n");
+                    buffOut.write(bytesOut.toByteArray());
+                    buffOut.flush();
+                    buffOut.close();
+                    socket.close();
 
-            } catch (java.io.FileNotFoundException ex) {
-                ex.printStackTrace();
-            } catch (java.io.IOException ex) {
-                ex.printStackTrace();
+                    ta.appendText("Update downloaded successfully. Connection has been closed. \n");
+
+                } catch (java.io.FileNotFoundException ex) {
+                    ex.printStackTrace();
+                } catch (java.io.IOException ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                ta.appendText("No update available at this time. \n");
             }
-        } else {
-            ta.appendText("No update available at this time. \n");
-
         }
 
     }
