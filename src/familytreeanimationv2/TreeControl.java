@@ -1,5 +1,11 @@
 /*
- * 
+ *  TreeControl is the interface between The TreeView and TreeModel. 
+ *  A person object is passed to TreeControl from TreeView after an event
+ *  suck as a mouse click. The TreeControl displays the options that are currently 
+ *  available to the Person object that was passed. After an option is selected,
+ *  TreeControl passes the Person object and the option to the TreeModel for
+ *  data manipulation. TreeControl will then update the TreeView with the current 
+ *  information to be displayed to the user.
  */
 package familytreeanimationv2;
 
@@ -9,7 +15,7 @@ package familytreeanimationv2;
  */
 public class TreeControl {
 
-    private Person rootPerson;
+    private Person person;
 
     private TreeView view;
 
@@ -46,7 +52,7 @@ public class TreeControl {
 
     public TreeControl(Person person, TreeView tv) {
 
-        this.rootPerson = person;
+        this.person = person;
         this.view = tv;
         this.model = new TreeModel();
 
@@ -69,24 +75,94 @@ public class TreeControl {
         this.maleRadio.setToggleGroup(sexGroup);
         this.femaleRadio.setToggleGroup(sexGroup);
 
+        javafx.scene.layout.GridPane namePane
+                = new javafx.scene.layout.GridPane();
+        javafx.scene.layout.VBox imagePane
+                = new javafx.scene.layout.VBox();
+        javafx.scene.layout.HBox sexPane
+                = new javafx.scene.layout.HBox();
+        javafx.scene.layout.VBox dataPane
+                = new javafx.scene.layout.VBox();
+        javafx.scene.layout.HBox btPane1
+                = new javafx.scene.layout.HBox();
+        javafx.scene.layout.HBox btPane2
+                = new javafx.scene.layout.HBox();
+
         gridPane.setHgap(5);
         gridPane.setVgap(5);
-        gridPane.add(new javafx.scene.control.Label("First Name: "), 0, 0);
-        gridPane.add(fnameTF, 1, 0);
-        gridPane.add(new javafx.scene.control.Label("Middle Name: "), 0, 1);
-        gridPane.add(mnameTF, 1, 1);
-        gridPane.add(new javafx.scene.control.Label("Last Name: "), 0, 2);
-        gridPane.add(lnameTF, 1, 2);
-        gridPane.add(maleRadio, 0, 3);
-        gridPane.add(femaleRadio, 1, 3);
-        gridPane.add(changePictureBtn, 0, 4);
-        gridPane.add(addMotherBT, 0, 5);
-        gridPane.add(addFatherBT, 1, 5);
-        gridPane.add(addMaleSpouseBT, 0, 6);
-        gridPane.add(addFemaleSpouseBT, 1, 6);
-        gridPane.add(addKidsBT, 0, 7);
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
+        namePane.setHgap(15);
+        namePane.setVgap(5);
+        namePane.getRowConstraints().add(new javafx.scene.layout.RowConstraints(30));
+        namePane.getRowConstraints().add(new javafx.scene.layout.RowConstraints(30));
+        namePane.getRowConstraints().add(new javafx.scene.layout.RowConstraints(30));
+        //Insets(top, right, bottom, left)
+        imagePane.setPadding(new javafx.geometry.Insets(5, 15, 5, 5));
+        sexPane.setPadding(new javafx.geometry.Insets(10, 20, 5, 5));
+        sexPane.setSpacing(25);
+        btPane1.setPadding(new javafx.geometry.Insets(5, 0, 5, 5));
+        btPane1.setSpacing(10);
+        btPane1.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+        btPane2.setPadding(new javafx.geometry.Insets(5, 5, 5, 5));
+        btPane2.setSpacing(10);
 
-        gridPane.add(saveBT, 1, 10);
+        javafx.scene.control.Label l1 = new javafx.scene.control.Label("First Name: ");
+        l1.setFont(new javafx.scene.text.Font("Georgia", 12));
+        namePane.add(l1, 0, 0);
+        fnameTF.setFont(new javafx.scene.text.Font("Georgia", 12));
+        namePane.add(fnameTF, 1, 0);
+        javafx.scene.control.Label l2 = new javafx.scene.control.Label("Middle Name: ");
+        l2.setFont(new javafx.scene.text.Font("Georgia", 12));
+        namePane.add(l2, 0, 1);
+        mnameTF.setFont(new javafx.scene.text.Font("Georgia", 12));
+        namePane.add(mnameTF, 1, 1);
+        javafx.scene.control.Label l3 = new javafx.scene.control.Label("Last Name: ");
+        l3.setFont(new javafx.scene.text.Font("Georgia", 12));
+        namePane.add(l3, 0, 2);
+        lnameTF.setFont(new javafx.scene.text.Font("Georgia", 12));
+        namePane.add(lnameTF, 1, 2);
+        
+        //dataPane.add(maleRadio, 0, 3);
+        if (this.person.getSex() == 1) {
+            maleRadio.setSelected(true);
+        }
+        //dataPane.add(femaleRadio, 1, 3);
+        if (this.person.getSex() == 2) {
+            femaleRadio.setSelected(true);
+        }
+        femaleRadio.setFont(new javafx.scene.text.Font("Georgia", 12));
+        maleRadio.setFont(new javafx.scene.text.Font("Georgia", 12));
+        sexPane.getChildren().addAll(maleRadio, femaleRadio);
+        sexPane.setAlignment(javafx.geometry.Pos.CENTER);
+
+        dataPane.getChildren().addAll(namePane, sexPane);
+
+        changePictureBtn.getStyleClass().add("shinygreen");
+        changePictureBtn.setStyle("-fx-font-size: 10px");
+        addMotherBT.getStyleClass().add("shinygreen");
+        addFatherBT.getStyleClass().add("shinygreen");
+        addMaleSpouseBT.getStyleClass().add("shinygreen");
+        addFemaleSpouseBT.getStyleClass().add("shinygreen");
+        addKidsBT.getStyleClass().add("shinygreen");
+        saveBT.getStyleClass().add("shinygreen");
+
+        imagePane.getChildren().addAll(new javafx.scene.image.ImageView(
+                new javafx.scene.image.Image(this.person.getImagePath())),
+                changePictureBtn);
+        imagePane.setAlignment(javafx.geometry.Pos.CENTER);
+
+        btPane1.getChildren().addAll(addMotherBT, addFatherBT);
+        btPane2.getChildren().addAll(addMaleSpouseBT, addFemaleSpouseBT, addKidsBT);
+
+        gridPane.add(imagePane, 0, 0);
+        gridPane.add(dataPane, 1, 0);
+        
+        //need to add in an Additional Info label and text area
+        gridPane.add(btPane1, 0, 5);
+        gridPane.add(btPane2, 1, 5);
+
+        gridPane.add(saveBT, 1, 12);
 
         gridPane.setAlignment(javafx.geometry.Pos.CENTER);
         this.fnameTF.setAlignment(javafx.geometry.Pos.BOTTOM_RIGHT);
@@ -95,15 +171,17 @@ public class TreeControl {
 
         javafx.scene.layout.GridPane.setHalignment(saveBT,
                 javafx.geometry.HPos.RIGHT);
+        javafx.scene.layout.GridPane.setValignment(saveBT,
+                javafx.geometry.VPos.BOTTOM);
 
         this.maleRadio.setOnAction(e -> {
 
-            this.rootPerson.setSex(1);
+            this.person.setSex(1);
         });
 
         this.femaleRadio.setOnAction(e -> {
 
-            this.rootPerson.setSex(2);
+            this.person.setSex(2);
         });
 
         this.changePictureBtn.setOnAction(e -> {
@@ -112,7 +190,15 @@ public class TreeControl {
             fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
             java.io.File picFile = fileChooser.showOpenDialog(stage);
 
-            this.model.changePictureIcon(rootPerson, picFile);
+            String filePath = picFile.getAbsolutePath();
+            String winPath = java.util.regex.Matcher.quoteReplacement(filePath);
+            filePath = "file:" + winPath.replaceFirst("C", "c");
+
+            System.out.println(filePath);
+
+            this.person.setImagePath(filePath);
+
+            this.model.changePictureIcon(person, picFile);
 
             this.view.displayTree();
 
@@ -120,7 +206,8 @@ public class TreeControl {
 
         this.addMotherBT.setOnAction(e -> {
 
-            Person mother = this.model.addMother(rootPerson);
+            Person mother = this.model.addMother(person);
+            mother.setSex(2);
 
             TreeControl motherControl = new TreeControl(mother, this.view);
             motherControl.addFatherBT.setDisable(true);
@@ -130,7 +217,7 @@ public class TreeControl {
             motherControl.addKidsBT.setDisable(true);
             motherControl.femaleRadio.setDisable(true);
             motherControl.maleRadio.setDisable(true);
-            motherControl.setTitle("Edit: " + rootPerson.toString() + "'s Mother");
+            motherControl.setTitle("Edit: " + person.toString() + "'s Mother");
             motherControl.showInputPane();
             stage.close();
 
@@ -138,7 +225,8 @@ public class TreeControl {
 
         this.addFatherBT.setOnAction(e -> {
 
-            Person father = model.addFather(rootPerson);
+            Person father = model.addFather(person);
+            father.setSex(1);
 
             TreeControl fatherControl = new TreeControl(father, this.view);
             fatherControl.addFatherBT.setDisable(true);
@@ -148,7 +236,7 @@ public class TreeControl {
             fatherControl.addKidsBT.setDisable(true);
             fatherControl.femaleRadio.setDisable(true);
             fatherControl.maleRadio.setDisable(true);
-            fatherControl.setTitle("Edit: " + rootPerson.toString() + "'s Father");
+            fatherControl.setTitle("Edit: " + person.toString() + "'s Father");
             fatherControl.showInputPane();
             stage.close();
 
@@ -156,7 +244,8 @@ public class TreeControl {
 
         this.addMaleSpouseBT.setOnAction(e -> {
 
-            Person maleSpouse = model.addMaleSpouse(rootPerson);
+            Person maleSpouse = model.addMaleSpouse(person);
+            maleSpouse.setSex(1);
 
             TreeControl maleSpouseControl = new TreeControl(maleSpouse, this.view);
             maleSpouseControl.addFatherBT.setDisable(true);
@@ -166,7 +255,7 @@ public class TreeControl {
             maleSpouseControl.addKidsBT.setDisable(true);
             maleSpouseControl.femaleRadio.setDisable(true);
             maleSpouseControl.maleRadio.setDisable(true);
-            maleSpouseControl.setTitle("Edit: " + rootPerson.toString() + "'s Spouse");
+            maleSpouseControl.setTitle("Edit: " + person.toString() + "'s Spouse");
             maleSpouseControl.showInputPane();
             stage.close();
 
@@ -174,7 +263,8 @@ public class TreeControl {
 
         this.addFemaleSpouseBT.setOnAction(e -> {
 
-            Person femaleSpouse = model.addFemaleSpouse(rootPerson);
+            Person femaleSpouse = model.addFemaleSpouse(person);
+            femaleSpouse.setSex(2);
 
             TreeControl femaleSpouseControl = new TreeControl(femaleSpouse, this.view);
             femaleSpouseControl.addFatherBT.setDisable(true);
@@ -184,43 +274,59 @@ public class TreeControl {
             femaleSpouseControl.addKidsBT.setDisable(true);
             femaleSpouseControl.femaleRadio.setDisable(true);
             femaleSpouseControl.maleRadio.setDisable(true);
-            femaleSpouseControl.setTitle("Edit: " + rootPerson.toString() + "'s Spouse");
+            femaleSpouseControl.setTitle("Edit: " + person.toString() + "'s Spouse");
             femaleSpouseControl.showInputPane();
             stage.close();
 
         });
 
         this.addKidsBT.setOnAction(e -> {
-            //////////////////////////////////// NEED WORK HERE////////////////
+            Person Child = model.addKid(person);
+
+            TreeControl ChildControl = new TreeControl(Child, this.view);
+            ChildControl.addFatherBT.setDisable(true);
+            ChildControl.addMotherBT.setDisable(true);
+            ChildControl.addFemaleSpouseBT.setDisable(true);
+            ChildControl.addMaleSpouseBT.setDisable(true);
+            ChildControl.addKidsBT.setDisable(true);
+            ChildControl.femaleRadio.setDisable(false);
+            ChildControl.maleRadio.setDisable(false);
+            ChildControl.setTitle("Edit: " + person.toString() + "'s Child");
+            ChildControl.showInputPane();
+
+            stage.close();
         });
 
         this.saveBT.setOnAction(e -> {
 
-            this.rootPerson.setfName(fnameTF.getText());
-            this.rootPerson.setmName(mnameTF.getText());
-            this.rootPerson.setlName(lnameTF.getText());
+            this.person.setfName(fnameTF.getText());
+            this.person.setmName(mnameTF.getText());
+            this.person.setlName(lnameTF.getText());
             stage.close();
             this.view.displayTree();
 
         });
 
         // Disable buttons if they already have that relative
-        if (this.rootPerson.getMother() != null) {
+        if (this.person.getMother() != null) {
             this.addMotherBT.setDisable(true);
         }
-        if (this.rootPerson.getFather() != null) {
+        if (this.person.getFather() != null) {
             this.addFatherBT.setDisable(true);
         }
-        if (this.rootPerson.getMaleSpouse() != null) {
+        if (this.person.getMaleSpouse() != null) {
             this.addMaleSpouseBT.setDisable(true);
         }
-        if (this.rootPerson.getFemaleSpouse() != null) {
+        if (this.person.getFemaleSpouse() != null) {
             this.addFemaleSpouseBT.setDisable(true);
         }
 
         javafx.scene.Scene scene = new javafx.scene.Scene(gridPane, 400, 250);
+        scene.getStylesheets().add("css/FamilyTreeCSS.css");
         stage.setTitle(this.title);
         stage.setScene(scene);
+        stage.setHeight(350);
+        stage.setWidth(450);
         stage.show();
     }
 

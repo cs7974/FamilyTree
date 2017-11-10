@@ -1,5 +1,6 @@
 /*
- * 
+ *  Service model handles all file write, read, and transfer opperations
+ *  for the overall system.
  */
 package familytreeanimationv2;
 
@@ -7,11 +8,11 @@ package familytreeanimationv2;
  *
  * @author Chris
  */
-public class SystemModel {
+public class ServiceModel {
 
     private double version = 1.0;
 
-    public SystemModel() {
+    public ServiceModel() {
 
     }
 
@@ -40,9 +41,9 @@ public class SystemModel {
         }
         return root;
     }
-    
-    public SystemUpdateClient update(){
-        SystemUpdateClient client = new SystemUpdateClient(this.version);
+
+    public UpdateClient update() {
+        UpdateClient client = new UpdateClient(this.version);
         return client;
     }
 

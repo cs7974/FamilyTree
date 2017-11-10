@@ -1,5 +1,11 @@
 /*
- * 
+ * ServiceControl is the interface between the ServiceModel and TreeView.
+ * It contains a method for displaying available system services in a button
+ * bar(Save and Load work, Check for updates, etc). 
+ * It will pass events at this button bar to the SystemModel for data 
+ * manipulation. In the even there is a return from SystemModel, ServiceControl
+ * updates TreeView for the user to see. In the event of a system software update, 
+ * SystemControl calls a separate update client to communicate with an outside server.
  */
 package familytreeanimationv2;
 
@@ -7,25 +13,24 @@ package familytreeanimationv2;
  *
  * @author Chris
  */
-public class SystemControl {
+public class ServiceControl {
 
-   final private javafx.stage.Stage mainStage;
-   final private TreeView view;
-   final private SystemModel model;
+    final private javafx.stage.Stage mainStage;
+    final private TreeView view;
+    final private ServiceModel model;
 
-    public SystemControl(TreeView view, javafx.stage.Stage mainStage) {
-        this.model = new SystemModel();
+    public ServiceControl(TreeView view, javafx.stage.Stage mainStage) {
+        this.model = new ServiceModel();
         this.view = view;
         this.mainStage = mainStage;
-        
-
     }
 
     public javafx.scene.layout.HBox showButtonPanel() {
 
         javafx.scene.layout.HBox buttonBox = new javafx.scene.layout.HBox(10.0);
 
-        buttonBox.setStyle("-fx-border-color: black; -fx-background-color: red");
+        buttonBox.setStyle("-fx-background-color: rgba(143,188,143,0.75);"
+                + "-fx-background-radius: 15; -fx-border-radius: 15");
 
         javafx.scene.control.Button saveBtn
                 = new javafx.scene.control.Button("Save Tree to File");
@@ -36,7 +41,7 @@ public class SystemControl {
         javafx.scene.control.Button updateBtn
                 = new javafx.scene.control.Button("Check for Updates");
 
-        javafx.scene.image.Image saveImage = new javafx.scene.image.Image("images/synaptic.png");
+        javafx.scene.image.Image saveImage = new javafx.scene.image.Image("images/Save.png");
         javafx.scene.image.ImageView saveView = new javafx.scene.image.ImageView(saveImage);
 
         javafx.scene.image.Image loadImage = new javafx.scene.image.Image("images/system-file-manager.png");
@@ -48,11 +53,15 @@ public class SystemControl {
         saveBtn.setGraphic(saveView);
         loadBtn.setGraphic(loadView);
         updateBtn.setGraphic(updateView);
+        saveBtn.getStyleClass().add("leafygreen");
+        loadBtn.getStyleClass().add("leafygreen");
+        updateBtn.getStyleClass().add("leafygreen");
         buttonBox.setPadding(new javafx.geometry.Insets(10.0, 10.0, 10.0, 10.0));
-        buttonBox.getChildren().addAll(saveBtn, loadBtn, updateBtn);
+        buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
+        buttonBox.setSpacing(90);
+        buttonBox.getStylesheets().add("css/FamilyTreeCSS.css");
 
         saveBtn.setOnAction(e -> {
-
             javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
             fileChooser.setTitle("Choose a Save Location");
             fileChooser.setInitialFileName(this.view.getRootPerson().toString());
@@ -74,12 +83,11 @@ public class SystemControl {
         });
 
         updateBtn.setOnAction(e -> {
-            SystemUpdateClient client = this.model.update();
+            UpdateClient client = this.model.update();
             client.start(mainStage);
         });
+        buttonBox.getChildren().addAll(saveBtn, loadBtn, updateBtn);
 
         return buttonBox;
     }
-
-    
 }
