@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  *
  * @author Chris
  */
-public class SystemUpdateClient extends Application {
+public class UpdateClient extends Application {
 
     private String serverIP = "127.0.0.1";
     private int serverPort = 8000;
@@ -24,7 +24,7 @@ public class SystemUpdateClient extends Application {
 
     double version;
 
-    public SystemUpdateClient(double version) {
+    public UpdateClient(double version) {
         this.version = version;
     }
 

@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
  */
 public class TreeControl {
 
-    private Person rootPerson;
+    private Person person;
 
     private TreeView view;
 
@@ -48,7 +48,7 @@ public class TreeControl {
 
     public TreeControl(Person person, TreeView tv) {
 
-        this.rootPerson = person;
+        this.person = person;
         this.view = tv;
         this.model = new TreeModel();
 
@@ -119,11 +119,11 @@ public class TreeControl {
         lnameTF.setFont(new javafx.scene.text.Font("Georgia", 12));
         namePane.add(lnameTF, 1, 2);
         //dataPane.add(maleRadio, 0, 3);
-        if (this.rootPerson.getSex() == 1) {
+        if (this.person.getSex() == 1) {
             maleRadio.setSelected(true);
         }
         //dataPane.add(femaleRadio, 1, 3);
-        if (this.rootPerson.getSex() == 2) {
+        if (this.person.getSex() == 2) {
             femaleRadio.setSelected(true);
         }
         femaleRadio.setFont(new javafx.scene.text.Font("Georgia", 12));
@@ -143,7 +143,7 @@ public class TreeControl {
         saveBT.getStyleClass().add("shinygreen");
 
         imagePane.getChildren().addAll(new javafx.scene.image.ImageView(
-                new javafx.scene.image.Image(this.rootPerson.getImagePath())),
+                new javafx.scene.image.Image(this.person.getImagePath())),
                 changePictureBtn);
         imagePane.setAlignment(javafx.geometry.Pos.CENTER);
 
@@ -170,12 +170,12 @@ public class TreeControl {
 
         this.maleRadio.setOnAction(e -> {
 
-            this.rootPerson.setSex(1);
+            this.person.setSex(1);
         });
 
         this.femaleRadio.setOnAction(e -> {
 
-            this.rootPerson.setSex(2);
+            this.person.setSex(2);
         });
 
         this.changePictureBtn.setOnAction(e -> {
@@ -190,9 +190,9 @@ public class TreeControl {
 
             System.out.println(filePath);
 
-            this.rootPerson.setImagePath(filePath);
+            this.person.setImagePath(filePath);
 
-            this.model.changePictureIcon(rootPerson, picFile);
+            this.model.changePictureIcon(person, picFile);
 
             this.view.displayTree();
 
@@ -200,7 +200,7 @@ public class TreeControl {
 
         this.addMotherBT.setOnAction(e -> {
 
-            Person mother = this.model.addMother(rootPerson);
+            Person mother = this.model.addMother(person);
             mother.setSex(2);
 
             TreeControl motherControl = new TreeControl(mother, this.view);
@@ -211,7 +211,7 @@ public class TreeControl {
             motherControl.addKidsBT.setDisable(true);
             motherControl.femaleRadio.setDisable(true);
             motherControl.maleRadio.setDisable(true);
-            motherControl.setTitle("Edit: " + rootPerson.toString() + "'s Mother");
+            motherControl.setTitle("Edit: " + person.toString() + "'s Mother");
             motherControl.showInputPane();
             stage.close();
 
@@ -219,7 +219,7 @@ public class TreeControl {
 
         this.addFatherBT.setOnAction(e -> {
 
-            Person father = model.addFather(rootPerson);
+            Person father = model.addFather(person);
             father.setSex(1);
 
             TreeControl fatherControl = new TreeControl(father, this.view);
@@ -230,7 +230,7 @@ public class TreeControl {
             fatherControl.addKidsBT.setDisable(true);
             fatherControl.femaleRadio.setDisable(true);
             fatherControl.maleRadio.setDisable(true);
-            fatherControl.setTitle("Edit: " + rootPerson.toString() + "'s Father");
+            fatherControl.setTitle("Edit: " + person.toString() + "'s Father");
             fatherControl.showInputPane();
             stage.close();
 
@@ -238,7 +238,7 @@ public class TreeControl {
 
         this.addMaleSpouseBT.setOnAction(e -> {
 
-            Person maleSpouse = model.addMaleSpouse(rootPerson);
+            Person maleSpouse = model.addMaleSpouse(person);
             maleSpouse.setSex(1);
 
             TreeControl maleSpouseControl = new TreeControl(maleSpouse, this.view);
@@ -249,7 +249,7 @@ public class TreeControl {
             maleSpouseControl.addKidsBT.setDisable(true);
             maleSpouseControl.femaleRadio.setDisable(true);
             maleSpouseControl.maleRadio.setDisable(true);
-            maleSpouseControl.setTitle("Edit: " + rootPerson.toString() + "'s Spouse");
+            maleSpouseControl.setTitle("Edit: " + person.toString() + "'s Spouse");
             maleSpouseControl.showInputPane();
             stage.close();
 
@@ -257,7 +257,7 @@ public class TreeControl {
 
         this.addFemaleSpouseBT.setOnAction(e -> {
 
-            Person femaleSpouse = model.addFemaleSpouse(rootPerson);
+            Person femaleSpouse = model.addFemaleSpouse(person);
             femaleSpouse.setSex(2);
 
             TreeControl femaleSpouseControl = new TreeControl(femaleSpouse, this.view);
@@ -268,14 +268,14 @@ public class TreeControl {
             femaleSpouseControl.addKidsBT.setDisable(true);
             femaleSpouseControl.femaleRadio.setDisable(true);
             femaleSpouseControl.maleRadio.setDisable(true);
-            femaleSpouseControl.setTitle("Edit: " + rootPerson.toString() + "'s Spouse");
+            femaleSpouseControl.setTitle("Edit: " + person.toString() + "'s Spouse");
             femaleSpouseControl.showInputPane();
             stage.close();
 
         });
 
         this.addKidsBT.setOnAction(e -> {
-            Person Child = model.addKid(rootPerson);
+            Person Child = model.addKid(person);
 
             TreeControl ChildControl = new TreeControl(Child, this.view);
             ChildControl.addFatherBT.setDisable(true);
@@ -285,7 +285,7 @@ public class TreeControl {
             ChildControl.addKidsBT.setDisable(true);
             ChildControl.femaleRadio.setDisable(false);
             ChildControl.maleRadio.setDisable(false);
-            ChildControl.setTitle("Edit: " + rootPerson.toString() + "'s Child");
+            ChildControl.setTitle("Edit: " + person.toString() + "'s Child");
             ChildControl.showInputPane();
 
             stage.close();
@@ -293,25 +293,25 @@ public class TreeControl {
 
         this.saveBT.setOnAction(e -> {
 
-            this.rootPerson.setfName(fnameTF.getText());
-            this.rootPerson.setmName(mnameTF.getText());
-            this.rootPerson.setlName(lnameTF.getText());
+            this.person.setfName(fnameTF.getText());
+            this.person.setmName(mnameTF.getText());
+            this.person.setlName(lnameTF.getText());
             stage.close();
             this.view.displayTree();
 
         });
 
         // Disable buttons if they already have that relative
-        if (this.rootPerson.getMother() != null) {
+        if (this.person.getMother() != null) {
             this.addMotherBT.setDisable(true);
         }
-        if (this.rootPerson.getFather() != null) {
+        if (this.person.getFather() != null) {
             this.addFatherBT.setDisable(true);
         }
-        if (this.rootPerson.getMaleSpouse() != null) {
+        if (this.person.getMaleSpouse() != null) {
             this.addMaleSpouseBT.setDisable(true);
         }
-        if (this.rootPerson.getFemaleSpouse() != null) {
+        if (this.person.getFemaleSpouse() != null) {
             this.addFemaleSpouseBT.setDisable(true);
         }
 

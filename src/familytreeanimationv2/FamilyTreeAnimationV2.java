@@ -21,7 +21,7 @@ public class FamilyTreeAnimationV2 extends Application {
 
         TreeView view = new TreeView(rootPerson);
 
-        SystemControl sc = new SystemControl(view, primaryStage);
+        ServiceControl sc = new ServiceControl(view, primaryStage);
 
         javafx.scene.layout.BorderPane bPane = new javafx.scene.layout.BorderPane();
 

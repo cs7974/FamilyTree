@@ -9,14 +9,14 @@ import javafx.geometry.Pos;
  *
  * @author Chris
  */
-public class SystemControl {
+public class ServiceControl {
 
     final private javafx.stage.Stage mainStage;
     final private TreeView view;
-    final private SystemModel model;
+    final private ServiceModel model;
 
-    public SystemControl(TreeView view, javafx.stage.Stage mainStage) {
-        this.model = new SystemModel();
+    public ServiceControl(TreeView view, javafx.stage.Stage mainStage) {
+        this.model = new ServiceModel();
         this.view = view;
         this.mainStage = mainStage;
     }
@@ -79,7 +79,7 @@ public class SystemControl {
         });
 
         updateBtn.setOnAction(e -> {
-            SystemUpdateClient client = this.model.update();
+            UpdateClient client = this.model.update();
             client.start(mainStage);
         });
         buttonBox.getChildren().addAll(saveBtn, loadBtn, updateBtn);
